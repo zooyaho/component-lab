@@ -1,7 +1,6 @@
 import { Input, PasswordInput } from "@/components/common/input";
-import Image from "next/image";
-import close from "@/public/assets/icons/close.svg"
 import Label from "@/components/common/label";
+import { Button } from "@/components/common/button";
 
 export default function Home() {
   return (
@@ -12,6 +11,11 @@ export default function Home() {
         <Input id="email" />
         <Label text={"pw"} htmlFor={"pw"} isRequired />
         <PasswordInput id="email" />
+        <Button text="primary" styleType="primary" />
+        <Button text="error" styleType="error" />
+        <Button text="secondary" styleType="secondary" />
+        <Button text="로그인" styleType="primary" size="l" className="w-full" />
+        <Button text="로그인" styleType="primary" size="l" className="w-full" isLoading />
       </form>
     </section>
   );
