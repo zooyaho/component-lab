@@ -26,6 +26,13 @@ i {
   font-style: normal;
 }
 
+input:-webkit-autofill {
+  /* 브라우저의 자동완성 입력 시 기본 배경색 제거 */
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  /* box-shadow: none !important; */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

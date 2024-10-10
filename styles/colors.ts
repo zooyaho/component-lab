@@ -17,6 +17,11 @@ export const colors = {
     600: "#818181",
   },
 
+  green: {
+    DEFAULT: "#00c400",
+    light: "#dbf1db",
+  },
+
   mint: {
     900: "#0f9bb6",
     800: "#0eadca",
