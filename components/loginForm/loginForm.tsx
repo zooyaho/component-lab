@@ -7,6 +7,7 @@ import { Input, PasswordInput } from "@/components/common/input";
 import Label from "@/components/common/label";
 import { Button } from "@/components/common/button";
 import FormHelper from "@/components/common/formHelper";
+import { signIn } from 'next-auth/react';
 
 export default function LoginForm() {
   const schema = yup.object().shape({
@@ -67,6 +68,7 @@ export default function LoginForm() {
           </FormHelper>
         )}
       />
+      <Button text='google로 로그인' onClick={() => signIn("google")} styleType="secondary" className='w-full mt-3' />
     </>
   )
 }

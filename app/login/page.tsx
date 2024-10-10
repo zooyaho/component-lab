@@ -7,7 +7,7 @@ export default function LoginPage() {
       <h1>Home Page</h1>
       <form className="flex flex-col gap-2 w-[30vw]">
         <LoginForm />
-        <Button text="로그인" styleType="primary" size="l" className="w-full mt-3" />
+        <Button text="로그인" styleType="primary" size="l" className="w-full mt-1" />
         {/* <Button text="primary" styleType="primary" />
         <Button text="error" styleType="error" />
         <Button text="secondary" styleType="secondary" />
