@@ -1,5 +1,5 @@
-import { Button } from "@/components/common/button";
-import LoginForm from "@/components/loginForm";
+import { Button } from '@/components/common/button';
+import LoginForm from '@/components/loginForm';
 
 export default function LoginPage() {
   return (
@@ -7,5 +7,5 @@ export default function LoginPage() {
       <h1>Login</h1>
       <LoginForm />
     </section>
-  )
+  );
 }
