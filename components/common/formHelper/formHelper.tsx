@@ -1,9 +1,9 @@
-"use client";
-import { FaRegCircleCheck } from "react-icons/fa6";
-import { MdOutlineErrorOutline } from "react-icons/md";
+'use client';
+import { FaRegCircleCheck } from 'react-icons/fa6';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 
 interface FormHelperPropsType {
-  status?: "default" | "error" | "success";
+  status?: 'default' | 'error' | 'success';
   errorText?: string;
   successText?: string;
   helperText?: string;
@@ -12,33 +12,33 @@ interface FormHelperPropsType {
 }
 
 export default function FormHelper({
-  status = "default",
+  status = 'default',
   errorText, // 에러 문구
   successText, // 성공 문구
   helperText, // 설명 문구
   textLength, // 현재 글자 수
   maxLength, // 최대 글자 수
-  children
+  children,
 }: React.PropsWithChildren<FormHelperPropsType>) {
   let statusIcon;
   let showText = helperText;
   let statusColor;
 
-  if (status === "error") {
-    statusColor = "text-red";
+  if (status === 'error') {
+    statusColor = 'text-red';
     if (errorText) {
       showText = errorText;
       statusIcon = <MdOutlineErrorOutline />;
     }
-  } else if (status === "success") {
-    statusColor = "text-green";
+  } else if (status === 'success') {
+    statusColor = 'text-green';
     if (successText) {
       showText = successText;
       statusIcon = <FaRegCircleCheck />;
     }
   } else {
     showText = helperText;
-    statusColor = "text-gray-500";
+    statusColor = 'text-gray-500';
     statusIcon = undefined;
   }
 
@@ -52,7 +52,11 @@ export default function FormHelper({
           <p className={`label-s ${statusColor}`}>{showText}</p>
         </div>
         {/* 현재 글자 수 표시 */}
-        {maxLength && <div className={`label-s ${statusColor}`}>{textLength || '0'}/{maxLength}</div>}
+        {maxLength && (
+          <div className={`label-s ${statusColor}`}>
+            {textLength || '0'}/{maxLength}
+          </div>
+        )}
       </div>
     </div>
   );

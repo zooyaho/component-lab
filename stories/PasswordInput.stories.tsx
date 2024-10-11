@@ -1,15 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PasswordInput } from "@/components/common/input"; // 경로에 맞게 수정하세요
+import { PasswordInput } from '@/components/common/input';
 
 const meta: Meta<typeof PasswordInput> = {
-  title: "Components/Password Input",
+  title: 'Components/PasswordInput',
   component: PasswordInput,
   argTypes: {
+    status: {
+      control: {
+        type: 'select',
+        options: ['default', 'error', 'success'], // 선택 가능한 상태
+      },
+    },
     placeholder: {
-      control: "text",
+      control: 'text',
     },
     className: {
-      control: "text",
+      control: 'text',
+    },
+    disabled: {
+      control: 'boolean',
     },
   },
 };
@@ -19,14 +28,29 @@ type Story = StoryObj<typeof PasswordInput>;
 
 export const Default: Story = {
   args: {
-    placeholder: "Enter your password...",
-    className: "",
+    status: 'default',
+    placeholder: 'Enter your password...',
+  },
+};
+
+export const Error: Story = {
+  args: {
+    status: 'error',
+    placeholder: 'This is an error state',
+  },
+};
+
+export const Success: Story = {
+  args: {
+    status: 'success',
+    placeholder: 'This is a success state',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    placeholder: "Disabled input",
+    status: 'default',
+    placeholder: 'Disabled input',
     disabled: true,
   },
 };
