@@ -1,18 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from "@/components/common/input"; // 경로에 맞게 수정하세요
+import { Input } from '@/components/common/input';
 
 const meta: Meta<typeof Input> = {
-  title: "Components/Deafult Input", // Storybook에서 보여질 컴포넌트의 카테고리와 이름
+  title: 'Components/Input',
   component: Input,
   argTypes: {
-    placeholder: {
-      control: "text",
+    status: {
+      control: {
+        type: 'select',
+        options: ['default', 'error', 'success'], // 선택 가능한 상태
+      },
     },
-    disabled: {
-      control: "boolean",
+    placeholder: {
+      control: 'text',
     },
     className: {
-      control: "text",
+      control: 'text',
+    },
+    disabled: {
+      control: 'boolean',
     },
   },
 };
@@ -22,21 +28,29 @@ type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {
-    placeholder: "Enter text...",
-    className: "w-[200px]",
+    status: 'default',
+    placeholder: 'Enter text...',
+  },
+};
+
+export const Error: Story = {
+  args: {
+    status: 'error',
+    placeholder: 'This is an error state',
+  },
+};
+
+export const Success: Story = {
+  args: {
+    status: 'success',
+    placeholder: 'This is a success state',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    placeholder: "Disabled input",
+    status: 'default',
+    placeholder: 'Disabled input',
     disabled: true,
-  },
-};
-
-export const CustomStyled: Story = {
-  args: {
-    placeholder: "Custom styled input",
-    className: "border-red-500",
   },
 };

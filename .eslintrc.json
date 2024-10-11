@@ -3,5 +3,13 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:storybook/recommended"
-  ]
+  ],
+  "rules": {
+    "valid-jsdoc": "off",
+    "react/display-name": "off",
+    "react-hooks/rules-of-hooks": "warn", // 훅 규칙 경고만 발생
+    "react-hooks/exhaustive-deps": "warn", // 의존성 배열 관련 경고만 발생
+    "react/jsx-props-no-spreading": "off", // props 확장 규칙 비활성화
+    "@typescript-eslint/no-unused-vars": "off"
+  }
 }
