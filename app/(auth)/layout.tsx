@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Header from '@/components/header';
 
 export default async function AuthLayout({ children }: PropsWithChildren) {
