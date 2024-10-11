@@ -102,17 +102,15 @@ export default function LoginForm() {
           )}
         />
         <Button
-          text="google로 로그인"
           onClick={() => signIn('google')}
           styleType="secondary"
           className="w-full mt-3"
-        />
-        <Button
-          text="로그인"
-          styleType="primary"
-          size="l"
-          className="w-full mt-1"
-        />
+        >
+          google로 로그인
+        </Button>
+        <Button styleType="primary" size="l" className="w-full mt-1">
+          로그인
+        </Button>
       </form>
     </>
   );

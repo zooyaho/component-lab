@@ -28,7 +28,6 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    text: 'Primary Button',
     styleType: 'primary',
     size: 'm',
     isLoading: false,
@@ -36,7 +35,6 @@ export const Primary: Story = {
 };
 export const Secondary: Story = {
   args: {
-    text: 'Secondary Button',
     styleType: 'secondary',
     size: 'm',
     isLoading: false,
@@ -44,7 +42,6 @@ export const Secondary: Story = {
 };
 export const Error: Story = {
   args: {
-    text: 'Error Button',
     styleType: 'error',
     size: 'm',
     isLoading: false,
@@ -53,7 +50,6 @@ export const Error: Story = {
 
 export const Loading: Story = {
   args: {
-    text: 'Loading Button',
     styleType: 'primary',
     size: 'm',
     isLoading: true,

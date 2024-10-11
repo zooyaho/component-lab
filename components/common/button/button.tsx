@@ -1,19 +1,20 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-interface ButtonPropsType extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
+interface ButtonPropsType
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    PropsWithChildren {
   styleType?: 'primary' | 'secondary' | 'error';
   size?: 'l' | 'm' | 's';
   isLoading?: boolean;
 }
 
 export default function Button({
-  text,
   styleType,
   size = 'm',
   isLoading,
   className,
+  children,
   ...props
 }: ButtonPropsType) {
   let styleClass = '';
@@ -56,7 +57,7 @@ export default function Button({
       className={`flex-center w-fit px-3 py-1 rounded-md ${styleClass} ${sizeClass} ${className}`}
       {...props}
     >
-      {isLoading ? <AiOutlineLoading3Quarters /> : text}
+      {isLoading ? <AiOutlineLoading3Quarters /> : children}
     </button>
   );
 }
