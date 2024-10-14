@@ -7,6 +7,12 @@ import { Input, PasswordInput } from '@/components/common/input';
 import Label from '@/components/common/label';
 import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 export default function SignupForm() {
   const schema = yup.object().shape({
@@ -22,18 +28,39 @@ export default function SignupForm() {
   });
 
   const {
-    register,
     control,
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: { email: '', password: '', confirmPassword: '' },
     mode: 'onChange', // 유효성 검사 시기 설정
   });
 
+  const onSubmitSignUp = async (formData: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
+    const { email, password } = formData;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      // TODO :: toast메세지 설정
+      console.error('회원가입 실패 >> ', error.message);
+    }
+  };
+
   return (
     <>
-      <form className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7">
+      <form
+        className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7"
+        onSubmit={handleSubmit(onSubmitSignUp)}
+      >
         <Label text={'email'} htmlFor={'email'} isRequired />
         <Controller
           name="email"
@@ -124,7 +151,7 @@ export default function SignupForm() {
               maxLength={20}
             >
               <PasswordInput
-                id="password"
+                id="confirmPassword"
                 placeholder="비밀번호"
                 status={
                   fieldState.invalid
@@ -141,9 +168,10 @@ export default function SignupForm() {
         />
         <Button
           styleType="primary"
+          type="submit"
           size="l"
           className="w-full mt-1"
-          disabled={!isValid && isDirty}
+          disabled={!isValid || !isDirty}
         >
           확인
         </Button>
