@@ -7,22 +7,25 @@ import { Input, PasswordInput } from '@/components/common/input';
 import Label from '@/components/common/label';
 import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
-import { signIn } from 'next-auth/react';
 
-export default function LoginForm() {
+export default function SignupForm() {
   const schema = yup.object().shape({
     email: yup
       .string()
       .email('이메일 형식으로 작성해주세요.')
       .required('이메일을 입력해주세요.'),
     password: yup.string().required('비밀번호를 입력해주세요.'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), undefined], '비밀번호가 일치하지 않습니다.')
+      .required('비밀번호를 입력해주세요.'),
   });
 
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange', // 유효성 검사 시기 설정
@@ -101,15 +104,48 @@ export default function LoginForm() {
             </FormHelper>
           )}
         />
+        <Label text={'pw'} htmlFor={'confirmPassword'} isRequired />
+        <Controller
+          name="confirmPassword"
+          control={control}
+          render={({ field, fieldState }) => (
+            <FormHelper
+              status={
+                fieldState.invalid
+                  ? 'error'
+                  : fieldState.isDirty
+                    ? 'success'
+                    : 'default'
+              } // 유효성 검사 상태 반영
+              errorText={fieldState.error?.message}
+              helperText="비밀번호를 입력해주세요."
+              successText="올바르게 입력했습니다."
+              textLength={field.value?.length}
+              maxLength={20}
+            >
+              <PasswordInput
+                id="password"
+                placeholder="비밀번호"
+                status={
+                  fieldState.invalid
+                    ? 'error'
+                    : fieldState.isDirty
+                      ? 'success'
+                      : 'default'
+                } // 유효성 검사 상태 반영
+                maxLength={20}
+                {...field}
+              />
+            </FormHelper>
+          )}
+        />
         <Button
-          onClick={() => signIn('google')}
-          styleType="secondary"
-          className="w-full mt-3"
+          styleType="primary"
+          size="l"
+          className="w-full mt-1"
+          disabled={!isValid && isDirty}
         >
-          google로 로그인
-        </Button>
-        <Button styleType="primary" size="l" className="w-full mt-1">
-          로그인
+          확인
         </Button>
       </form>
     </>

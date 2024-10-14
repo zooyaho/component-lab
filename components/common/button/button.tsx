@@ -54,7 +54,7 @@ export default function Button({
   return (
     <button
       type={props.type ?? 'button'}
-      className={`flex-center w-fit px-3 py-1 rounded-md ${styleClass} ${sizeClass} ${className}`}
+      className={`flex-center w-fit px-3 py-1 rounded-md ${styleClass} ${sizeClass} ${className} disabled:text-gray-200 disabled:bg-gray-400`}
       {...props}
     >
       {isLoading ? <AiOutlineLoading3Quarters /> : children}
