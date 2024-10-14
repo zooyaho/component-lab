@@ -8,6 +8,7 @@ import Label from '@/components/common/label';
 import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
 import { createClient } from '@supabase/supabase-js';
+import { usePathname, useRouter } from 'next/navigation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,6 +16,9 @@ const supabase = createClient(
 );
 
 export default function SignupForm() {
+  const router = useRouter();
+  const path = usePathname();
+
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -30,7 +34,9 @@ export default function SignupForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    reset,
+    setError,
+    formState: { isValid, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { email: '', password: '', confirmPassword: '' },
@@ -52,6 +58,13 @@ export default function SignupForm() {
     if (error) {
       // TODO :: toast메세지 설정
       console.error('회원가입 실패 >> ', error.message);
+
+      if (error.code === 'user_already_exists') {
+        reset();
+        setError('email', { message: '이미 존재하는 유저입니다.' });
+      }
+    } else {
+      router.push(`${path}/success`);
     }
   };
 
