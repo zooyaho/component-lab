@@ -2,19 +2,67 @@ import NextAuth, { Account, Session, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import GoogleProvider from 'next-auth/providers/google';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
+import { createClient } from '@supabase/supabase-js';
+import CredentialsProvider from 'next-auth/providers/credentials';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 export const authOptions = {
-  adapter: SupabaseAdapter({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    secret: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  }),
   providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email', placeholder: '이메일' },
+        password: {
+          label: 'Password',
+          type: 'password',
+          placeholder: '비밀번호',
+        },
+      },
+      async authorize(credentials) {
+        const { email, password } = credentials ?? {};
+
+        if (!email || !password) {
+          throw new Error('이메일과 비밀번호를 모두 입력해주세요.');
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        // 에러 처리: 사용자가 없거나 비밀번호가 잘못된 경우
+        if (error) {
+          throw new Error('로그인 실패: 이메일 또는 비밀번호를 확인해주세요.');
+        }
+
+        console.log('data.user >> ', data.user);
+
+        // 로그인 성공: 사용자의 세션 데이터를 반환
+        if (data.user) {
+          // console.log('⭐️Credentials Login Success');
+          return {
+            id: data.user.id,
+            email: data.user.email,
+          };
+        }
+
+        // 예기치 못한 에러 발생 시 null 반환
+        return null;
+      },
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
     // 다른 OAuth 제공자를 추가
   ],
+  session: {
+    strategy: 'jwt' as const,
+  },
   pages: {
     signIn: '/login', // 로그인 페이지 경로설정
   },
@@ -32,6 +80,7 @@ export const authOptions = {
       account?: Account | null;
       user?: User | null;
     }) {
+      // console.log('[JWT] token, account, user >> ', token, account, user);
       // 첫 로그인 시 JWT에 이메일 및 사용자 정보를 저장
       if (account && user) {
         token.email = user.email;
@@ -40,6 +89,7 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
+      // console.log('[sesstion] session, token >> ', session, token);
       // 세션에 이메일 및 사용자 이름을 추가
       if (session.user) {
         session.user.email = token.email ?? session.user.email; // email이 있으면 설정, 없으면 기존 값 유지

@@ -19,18 +19,37 @@ export default function LoginForm() {
   });
 
   const {
-    register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: { email: '', password: '' },
     mode: 'onChange', // 유효성 검사 시기 설정
   });
 
+  const onSubmitLogin = async (formData: {
+    email: string;
+    password: string;
+  }) => {
+    const { email, password } = formData;
+
+    const result = await signIn('credentials', {
+      email,
+      password,
+    });
+
+    if (result?.error) {
+      console.error('로그인 실패:', result.error);
+    }
+  };
+
   return (
     <>
-      <form className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7">
+      <form
+        className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7"
+        onSubmit={handleSubmit(onSubmitLogin)}
+      >
         <Label text={'email'} htmlFor={'email'} isRequired />
         <Controller
           name="email"
@@ -108,7 +127,13 @@ export default function LoginForm() {
         >
           google로 로그인
         </Button>
-        <Button styleType="primary" size="l" className="w-full mt-1">
+        <Button
+          type="submit"
+          styleType="primary"
+          size="l"
+          className="w-full mt-1"
+          disabled={!isValid || !isDirty}
+        >
           로그인
         </Button>
       </form>
