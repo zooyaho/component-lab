@@ -8,8 +8,10 @@ import Label from '@/components/common/label';
 import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const router = useRouter();
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -19,18 +21,76 @@ export default function LoginForm() {
   });
 
   const {
-    register,
     control,
+    setError,
+    reset,
     handleSubmit,
-    formState: { errors },
+    formState: { isDirty, isValid },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: { email: '', password: '' },
     mode: 'onChange', // 유효성 검사 시기 설정
   });
 
+  const onSubmitLogin = async (formData: {
+    email: string;
+    password: string;
+  }) => {
+    const { email, password } = formData;
+
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false, // 성공,실패 시 redirect 방지
+      });
+
+      if (result?.error) {
+        if (result.status === 401) {
+          setError('email', {
+            type: 'manual',
+            message: result.error || '로그인 중 에러가 발생했습니다.',
+          });
+          setError('password', {
+            type: 'manual',
+            message: result.error || '로그인 중 에러가 발생했습니다.',
+          });
+
+          reset(
+            {
+              email,
+              password,
+            },
+            {
+              keepErrors: true, // 에러 메시지를 유지
+              keepDirty: true, // Dirty 상태를 유지 (사용자가 입력한 값이 있다는 표시)
+              keepTouched: true, // 터치 상태 유지
+            },
+          );
+        } else {
+          throw {
+            message: result.error || '알 수 없는 에러가 발생했습니다.',
+            status: result.status,
+          };
+        }
+      }
+
+      if (result?.ok) {
+        router.push('/component-view');
+      }
+    } catch (error: any) {
+      // error status: 500 etc...
+      // TODO :: 토스트 활성화
+      console.error('[', error.status, ']', error.message);
+    }
+  };
+
   return (
     <>
-      <form className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7">
+      <form
+        className="flex flex-col gap-2 w-[35vw]  border-2 border-gray-200 rounded-md px-7 py-7"
+        onSubmit={handleSubmit(onSubmitLogin)}
+      >
         <Label text={'email'} htmlFor={'email'} isRequired />
         <Controller
           name="email"
@@ -108,7 +168,13 @@ export default function LoginForm() {
         >
           google로 로그인
         </Button>
-        <Button styleType="primary" size="l" className="w-full mt-1">
+        <Button
+          type="submit"
+          styleType="primary"
+          size="l"
+          className="w-full mt-1"
+          disabled={!isValid || !isDirty}
+        >
           로그인
         </Button>
       </form>

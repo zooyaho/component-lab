@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Modal from '../common/modal';
 
 export default function Header() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [isShowLogoutModal, setIsShowLogoutModal] = useState(false);
 
   const showModal = () => {
