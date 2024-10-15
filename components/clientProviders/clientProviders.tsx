@@ -1,10 +1,15 @@
-"use client";
-import { SessionProvider } from "next-auth/react";
+'use client';
+import { SessionProvider } from 'next-auth/react';
+import { ToastCustomContainer } from '@/components/common/toast';
 
-export default function ClientProviders({ children }: { children: React.ReactNode }) {
+export default function ClientProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SessionProvider>
-      {children}
+      <ToastCustomContainer>{children}</ToastCustomContainer>
     </SessionProvider>
   );
 }
