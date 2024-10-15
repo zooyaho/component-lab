@@ -1,7 +1,6 @@
 import NextAuth, { Account, Session, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import GoogleProvider from 'next-auth/providers/google';
-import { SupabaseAdapter } from '@auth/supabase-adapter';
 import { createClient } from '@supabase/supabase-js';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -50,7 +49,6 @@ export const authOptions = {
           };
         }
 
-        // 예기치 못한 에러 발생 시 null 반환
         return null;
       },
     }),
@@ -90,10 +88,9 @@ export const authOptions = {
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       // console.log('[sesstion] session, token >> ', session, token);
-      // 세션에 이메일 및 사용자 이름을 추가
       if (session.user) {
-        session.user.email = token.email ?? session.user.email; // email이 있으면 설정, 없으면 기존 값 유지
-        session.user.name = token.name ?? session.user.name; // name이 있으면 설정, 없으면 기존 값 유지
+        session.user.email = token.email ?? session.user.email;
+        session.user.name = token.name ?? session.user.name;
       }
       return session;
     },
