@@ -13,7 +13,7 @@ export const defaultOptions: ToastOptions = {
   transition: Slide,
 };
 
-type ToastType = 'success' | 'error' | 'info' | 'warning' | 'default';
+export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'default';
 
 /**
  * @param {ToastType} type
