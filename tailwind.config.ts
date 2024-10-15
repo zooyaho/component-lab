@@ -55,9 +55,15 @@ const config: Config = {
         '0%': { opacity: '0', transform: 'translateY(20px)' },
         '100%': { opacity: '1', transform: 'translateY(0)' },
       },
+      'skeleton-gradient': {
+        '0%': { backgroundColor: 'rgba(165, 165, 165, 0.1)' },
+        '50%': { backgroundColor: 'rgba(165, 165, 165, 0.3)' },
+        '100%': { backgroundColor: 'rgba(165, 165, 165, 0.1)' },
+      },
     },
     animation: {
       sharrak: 'sharrak 1s ease-out',
+      'skeleton-gradient': 'skeleton-gradient 1.5s infinite ease-in-out',
     },
   },
   plugins: [],

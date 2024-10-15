@@ -31,7 +31,9 @@ export default function Header() {
               <Link href={'/'}>Home</Link>
             </li>
             <li className="hover:text-black-opacity-70">
-              <Link href={'/component-view'}>component-view</Link>
+              <Link href={'/component-view'} prefetch>
+                component-view
+              </Link>
             </li>
             {session && (
               <li className="hover:text-black-opacity-70">
@@ -40,7 +42,9 @@ export default function Header() {
             )}
           </ul>
         </nav>
-        {session ? (
+        {status === 'loading' ? (
+          <Button styleType="primary" isLoading />
+        ) : session ? (
           <Button styleType="primary" onClick={showModal}>
             Logout
           </Button>
@@ -48,6 +52,7 @@ export default function Header() {
           <Link
             href={'/login'}
             className="flex-center w-fit px-3 py-1 rounded-md text-mint-600 bg-transparent border border-mint-600 hover:border-mint-800 hover:text-mint-800"
+            prefetch
           >
             Login
           </Link>
