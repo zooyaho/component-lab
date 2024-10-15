@@ -21,7 +21,7 @@ export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'default';
  * @param {ToastOptions} [options=defaultToastOption]
  * @return {Id}
  */
-export default function Toast(
+export default function showToast(
   type: ToastType,
   content: ToastContent,
   options: Partial<ToastOptions> = {},

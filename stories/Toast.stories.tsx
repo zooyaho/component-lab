@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/components/common/button';
-import { Toast, ToastCustomContainer } from '@/components/common/toast';
+import { showToast, ToastCustomContainer } from '@/components/common/toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastOptions, ToastContent } from 'react-toastify';
 import { ToastType } from '@/components/common/toast/toast';
@@ -43,7 +43,7 @@ export const Default: Story = {
     <>
       <Button
         styleType="primary"
-        onClick={() => Toast(args.type, args.content, args.options)}
+        onClick={() => showToast(args.type, args.content, args.options)}
       >
         Show Toast
       </Button>
@@ -63,7 +63,7 @@ export const SuccessToast: Story = {
     <>
       <Button
         styleType="primary"
-        onClick={() => Toast(args.type, args.content, args.options)}
+        onClick={() => showToast(args.type, args.content, args.options)}
       >
         Show Success Toast
       </Button>
@@ -83,7 +83,7 @@ export const ErrorToast: Story = {
     <>
       <Button
         styleType="primary"
-        onClick={() => Toast(args.type, args.content, args.options)}
+        onClick={() => showToast(args.type, args.content, args.options)}
       >
         Show Error Toast
       </Button>
@@ -108,7 +108,7 @@ export const CustomToast: Story = {
     <>
       <Button
         styleType="primary"
-        onClick={() => Toast(args.type, args.content, args.options)}
+        onClick={() => showToast(args.type, args.content, args.options)}
       >
         Custom Toast
       </Button>

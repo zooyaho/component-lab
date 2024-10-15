@@ -9,6 +9,7 @@ import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { showToast } from '@/components/common/toast';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -79,8 +80,7 @@ export default function LoginForm() {
         router.push('/component-view');
       }
     } catch (error: any) {
-      // error status: 500 etc...
-      // TODO :: 토스트 활성화
+      showToast('error', error.message);
       console.error('[', error.status, ']', error.message);
     }
   };

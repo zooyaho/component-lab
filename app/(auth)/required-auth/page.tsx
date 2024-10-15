@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/common/button';
 import Modal from '@/components/common/modal';
-import { Toast } from '@/components/common/toast';
+import { showToast } from '@/components/common/toast';
 import { useState } from 'react';
 
 export default function RequiredAuthPage() {
@@ -15,7 +15,7 @@ export default function RequiredAuthPage() {
       <Button
         styleType={'secondary'}
         onClick={() =>
-          Toast(
+          showToast(
             'success',
             <p className=" line-clamp-1">
               Your post has been published!Your post has been published! Your
@@ -34,7 +34,7 @@ export default function RequiredAuthPage() {
       <Button
         styleType={'secondary'}
         onClick={() =>
-          Toast(
+          showToast(
             'error',
             <p>
               Your post has been published!Your post has been published! Your

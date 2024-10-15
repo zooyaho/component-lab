@@ -9,6 +9,7 @@ import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
 import { usePathname, useRouter } from 'next/navigation';
 import { supabase } from '@/utils/supabaseClient';
+import { showToast } from '../common/toast';
 
 export default function SignupForm() {
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function SignupForm() {
     });
 
     if (error) {
-      // TODO :: toast메세지 설정
+      showToast('error', error.message);
       console.error('회원가입 실패 >> ', error.message);
 
       if (error.code === 'user_already_exists') {
