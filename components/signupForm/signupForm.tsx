@@ -7,13 +7,8 @@ import { Input, PasswordInput } from '@/components/common/input';
 import Label from '@/components/common/label';
 import { Button } from '@/components/common/button';
 import FormHelper from '@/components/common/formHelper';
-import { createClient } from '@supabase/supabase-js';
 import { usePathname, useRouter } from 'next/navigation';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+import { supabase } from '@/utils/supabaseClient';
 
 export default function SignupForm() {
   const router = useRouter();

@@ -21,10 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${pretendardRegular.variable} ${pretendardSemiBold.variable} ${pretendardBold.variable}`}
+        suppressHydrationWarning={true}
       >
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
