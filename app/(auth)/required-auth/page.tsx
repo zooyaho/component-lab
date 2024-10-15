@@ -1,6 +1,7 @@
 'use client';
 import { Button } from '@/components/common/button';
 import Modal from '@/components/common/modal';
+import { Toast } from '@/components/common/toast';
 import { useState } from 'react';
 
 export default function RequiredAuthPage() {
@@ -8,7 +9,47 @@ export default function RequiredAuthPage() {
   return (
     <>
       <h1>RequiredAuthPage</h1>
-      <Button onClick={() => setIsShowModal(true)}>modal open</Button>
+      <Button styleType={'secondary'} onClick={() => setIsShowModal(true)}>
+        modal open
+      </Button>
+      <Button
+        styleType={'secondary'}
+        onClick={() =>
+          Toast(
+            'success',
+            <p className=" line-clamp-1">
+              Your post has been published!Your post has been published! Your
+              post has been published! Your post has been published! Your post
+              has been published!
+            </p>,
+            {
+              closeButton: true,
+              autoClose: false,
+            },
+          )
+        }
+      >
+        success toast open
+      </Button>
+      <Button
+        styleType={'secondary'}
+        onClick={() =>
+          Toast(
+            'error',
+            <p>
+              Your post has been published!Your post has been published! Your
+              post has been published! Your post has been published! Your post
+              has been published!
+            </p>,
+            {
+              closeButton: true,
+              autoClose: false,
+            },
+          )
+        }
+      >
+        default toast open
+      </Button>
       <Modal
         isShow={isShowModal}
         title={{ text: 'Info' }}
